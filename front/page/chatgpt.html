@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no,minimal-ui">
+  <title>医药联</title>
+  <!--        <link rel="icon" href="./../images/favico.ico">-->
+  <link rel="shortcut icon" href="../title2.ico">
+  <!--不同屏幕尺寸根字体设置-->
+  <script src="./../js/base.js"></script>
+  <!--element-ui的样式-->
+  <link rel="stylesheet" href="../../backend/plugins/element-ui/index.css" />
+  <!--引入vant样式-->
+  <link rel="stylesheet" href="../styles/vant.min.css"/>
+  <!-- 引入样式  -->
+  <link rel="stylesheet" href="../styles/index.css" />
+  <!--本页面内容的样式-->
+  <link rel="stylesheet" href="../styles/chatgpt.css" />
+
+
+
+  <link rel="stylesheet" type="text/css" href="../static/css/core.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/icon.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/home.css">
+</head>
+<body>
+
+<!-- 这里的container就是一个AI的对话框 -->
+<div class="container" id="login">
+
+  <div class="divHead">
+    <!-- 这一行代码整个表示的就是AI窗口的标题 -->
+    <!-- <h1>AI智能用药咨询平台</h1> -->
+
+    AI智能用药咨询平台
+<!--     <div id="clock" class="clock">00:00:00</div>-->
+  </div>
+
+
+  <div class="divContainer" id="divContainer">
+    <div class="user-message">
+      <div class="user-avatar"></div>
+      <div class="chat-message user">你好医生!</div>
+      <div class="message-time" id="time1"> 00:00:00 </div>
+    </div>
+    <div class="bot-message">
+      <div class="bot-avatar"></div>
+      <div class="chat-message chatbot">你好用户，欢迎来到医药联智能咨询问诊平台。</div>
+      <div class="message-time" id="time2">00:00:00</div>
+    </div>
+  </div>
+
+
+
+
+  <form id="input-form">
+    <!-- 这一行的前端代码表示的是你需要输入什么东西  -->
+    <input type="text" id="input-field" placeholder="Type a message...">
+    <button type="submit" id="submit-button">Send</button>
+<!--    <button id="export-button">Export Chat History</button>-->
+<!--    <button id="save-button">Save Chat History</button>-->
+  </form>
+
+
+  <!-- <form id="input-form"> -->
+
+  <!-- 这一行的前端代码表示的是你需要输入什么东西  -->
+  <!-- <input type="text" id="input-field" placeholder="Type a message...">
+
+
+      <button type="submit" id="submit-button">Send</button>
+      <button id="export-button">Export Chat History</button> -->
+  <!-- <button id="save-button">Save Chat History</button> -->
+  <!-- </form> -->
+
+  <!--            这里表示的是底部-->
+  <footer class="aui-footer-default aui-footer-fixed">
+    <a href="../index1.html" class="aui-footer-item">
+      <span class="aui-footer-item-icon aui-icon aui-footer-icon-home"></span>
+      <span class="aui-footer-item-text">首页</span>
+    </a>
+    <a href="../index.html" class="aui-footer-item">
+      <span class="aui-footer-item-icon aui-icon aui-footer-icon-class"></span>
+      <span class="aui-footer-item-text">分类</span>
+    </a>
+      <a href="./chatgpt.html" class="aui-footer-item aui-footer-active">
+        <span class="aui-footer-item-icon aui-icon aui-footer-icon-find"></span>
+        <span class="aui-footer-item-text">智能咨询</span>
+      </a>
+    <a href="./order.html" class="aui-footer-item">
+      <span class="aui-footer-item-icon aui-icon aui-footer-icon-car"></span>
+      <span class="aui-footer-item-text">订单</span>
+    </a>
+    <a href="./user.html" class="aui-footer-item">
+      <span class="aui-footer-item-icon aui-icon aui-footer-icon-me"></span>
+      <span class="aui-footer-item-text">我的</span>
+    </a>
+  </footer>
+</div>
+
+
+
+
+
+
+</div>
+
+
+</body>
+</html>
+
+<script type="text/javascript" src="script.js"></script>
