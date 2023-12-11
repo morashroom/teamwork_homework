@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="title2.ico">
+
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="plugins/element-ui/index.css" />
+  <link rel="stylesheet" href="styles/common.css" />
+  <link rel="stylesheet" href="styles/index.css" />
+  <link rel="stylesheet" href="styles/icon/iconfont.css" />
+</head>
+<body>
+
+  <div id="app">
+<!--  设计的内容-->
+      <el-steps :active="active" finish-status="success">
+          <el-step title="步骤 1"></el-step>
+          <el-step title="步骤 2"></el-step>
+          <el-step title="步骤 3"></el-step>
+      </el-steps>
+
+      <el-button style="margin-top: 12px;" @click="next">下一步</el-button>
+  </div>
+
+
+
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="plugins/vue/vue.js"></script>
+  <!-- 引入组件库 -->
+  <script src="plugins/element-ui/index.js"></script>
+  <script src="plugins/axios/axios.min.js"></script>
+  <script src="js/request.js"></script>
+  <script src="./api/login.js"></script>
+
+  <script>
+
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                active: 0
+            };
+        },
+        methods: {
+            next() {
+                if (this.active++ > 2) this.active = 0;
+            }
+        }
+    })
+
+
+  </script>
+
+</body>
+</html>
