@@ -1,0 +1,96 @@
+server:
+  port: 6357
+spring:
+  application:
+    name: medicine_take_out
+
+  shardingsphere:
+    datasource:
+      names: master,slave
+      master:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/yaojisong?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+        username: root
+        password: 1234
+        type: com.alibaba.druid.pool.DruidDataSource
+        #Spring Boot 默认是不注入这些属性值的，需要自己绑定
+        #druid 数据源专有配置
+        initialSize: 5
+        minIdle: 5
+        maxActive: 20
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+      slave:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.163.129:3306/yaojisong?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+        username: root
+        password: 6432
+        type: com.alibaba.druid.pool.DruidDataSource
+        #Spring Boot 默认是不注入这些属性值的，需要自己绑定
+        #druid 数据源专有配置
+        initialSize: 5
+        minIdle: 5
+        maxActive: 20
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+    masterslave: # 主从复制的配置
+      # 负载均衡的配置:配置为轮询
+      load-balance-algorithm-type: round_robin
+      # 最终暴露的数据源名称
+      name: datasource
+      # 从数据库名称列表，用','号隔开
+      slave-data-source-names: slave
+      props:
+        sql:
+          show: true # 开启在控制台显示sql，默认是false
+      master-data-source-name: master
+
+      #这里表示的是邮箱的配置
+  mail:
+    host: smtp.qq.com
+    username: 2717557144@qq.com
+    password: tddrbevpxnxgdcjh
+    port: 25
+    default-encoding: UTF-8
+    properties:
+     mail:
+      smtp:
+       socketFactoryClass: javax.net.ssl.SSLSocketFactory
+            #          开启debug以后，邮件发送过程的日志会在控制台上打印出来
+      debug: true
+
+  redis:
+    host: 192.168.163.1
+    port: 6379
+    password: 1234
+    database: 0
+  cache:
+    redis:
+      time-to-live: 3600000 # redis中设置的key的默认过期时间，实际应用中为了避免缓存雪崩问题，设置的默认过期时间应该尽可能分散。R
+
+mybatis-plus:
+  configuration:
+    #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: ASSIGN_ID
+
+medicine:
+#  path: /usr/local/app/resources/picture_directory/
+  path: C:\Users\Lenovo\Desktop\作业\picture_directory\
+
+
