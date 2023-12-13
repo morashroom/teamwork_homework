@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="../../plugins/element-ui/index.css" />
+<!--  <link rel="stylesheet" href="../../styles/common.css" />-->
+<!--  <link rel="stylesheet" href="../../styles/page.css" />-->
+
+</head>
+<body>
+<div id="form-app">
+  <el-steps :active="step" align-center>
+    <el-step title="填写" description="请填写相关信息"></el-step>
+    <el-step title="确认" description="确认信息无误"></el-step>
+    <el-step title="完成" description="完成健康打卡"></el-step>
+  </el-steps>
+  <div v-if="[1, 2].includes(step)" class="content">
+    <el-form :model="formData" :rules="formRules" ref="myForm" class="demo-ruleForm">
+
+      <el-form-item label="1. 员工的姓名" prop="name">
+        <el-input v-model="formData.name" :disabled="step === 2"></el-input>
+      </el-form-item>
+
+      <el-form-item label="2. 员工的电话" prop="telephone">
+        <el-input v-model="formData.telephone" :disabled="step === 2"></el-input>
+      </el-form-item>
+
+
+      <el-form-item label="3. 目前的监控状况：" prop="status">
+        <el-radio-group :disabled="step === 2" style="width: 100%" v-model="formData.status">
+          <el-radio :label="0">正常</el-radio>
+          <el-radio :label="1">有发热咳嗽</el-radio>
+          <el-radio :label="2">其他不正常情况</el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+
+      <el-form-item label="4. 当前体温：" prop="temperature">
+        <el-input v-model="formData.temperature" :disabled="step === 2"></el-input>
+      </el-form-item>
+
+
+      <el-form-item label="5. 是否中高风险地区停留或接触中高风险地区人员：" prop="isTouchRiskPeople">
+        <el-radio-group v-model="formData.isTouchriskpeople" :disabled="step === 2">
+          <el-radio :label="false">否</el-radio>
+          <el-radio :label="true">是</el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+
+      <el-form-item label="6. 是否接触疑似或者确诊的新冠病毒肺炎患者患者：" prop="isTouchCOVID19People">
+        <el-radio-group v-model="formData.isTouch" :disabled="step === 2">
+          <el-radio :label="false">否</el-radio>
+          <el-radio :label="true">是</el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+
+      <el-form-item label="7. 近14日有无与境外（包括港澳台）回国人员接触：" prop="isTouchOverseasPeople">
+        <el-radio-group v-model="formData.isTouchoverseas" :disabled="step === 2">
+          <el-radio :label="false">否</el-radio>
+          <el-radio :label="true">是</el-radio>
+        </el-radio-group>
+      </el-form-item>
+<!--      <el-form-item label="6. 请选择打卡时所在的位置信息：" prop="aera">-->
+<!--        <aera-select v-model="formData.aera" :disabled="step === 2"></aera-select>-->
+<!--      </el-form-item>-->
+    </el-form>
+  </div>
+  <div v-if="step === 3">
+    <el-result icon="success" title="打卡成功" subTitle="请根据提示进行操作">
+    </el-result>
+  </div>
+  <div class="buttons" id="cen" style="text-align: center">
+    <el-button v-if="step === 1" type="primary" @click="nextStep" id="cen1">下一步</el-button>
+    <el-button v-if="step === 2" @click="preStep" id="cen1">上一步</el-button>
+    <el-button v-if="step === 2" type="primary" @click="submit" id="cen1">确认</el-button>
+    <el-button v-if="step === 3" type="primary" id="cen1" @click="final_submit">提交健康信息</el-button>
+  </div>
+
+
+
+<!--  <div class="aera-select">-->
+<!--    <el-cascader-->
+<!--            :options="options"-->
+<!--            v-model="selecteds"-->
+<!--            placeholder="请选择地区位置"-->
+<!--            :disabled="disabled"-->
+<!--    >-->
+<!--    </el-cascader>-->
+<!--  </div>-->
+</div>
+
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="../../plugins/vue/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="../../plugins/element-ui/index.js"></script>
+<!-- 引入axios -->
+<script src="../../plugins/axios/axios.min.js"></script>
+<script src="../../js/request.js"></script>
+<script src="../../api/med.js"></script>
+<script src="../../api/healthy.js"></script>
+<script src="../../AeraSelect.vue"></script>
+
+<script>
+
+  new Vue({
+    el: '#form-app',
+    data() {
+      return {
+        step: 1,
+        formData: {
+          'id': "",
+          'telephone': "",
+          'name': "",
+          'status': 0,
+          'temperature': 0,
+          'isTouchriskpeople': false,
+          'isTouch': false,
+          'isTouchoverseas': false,
+          // aera: [],
+        },
+
+        formRules: {
+          telephone: [
+            { required: true, message: '请输入您的电话号码', trigger: 'blur' }
+          ],
+          name: [
+            { required: true, message: '请输入您的姓名', trigger: 'blur' }
+          ],
+          status: [
+            { required: true, message: '请选择健康状况', trigger: 'blur' }
+          ],
+          temperature: [
+            { required: true, message: '请输入当前体温', trigger: 'blur' }
+          ],
+          isTouchriskpeople: [
+            { required: true, message: '请选择是否', trigger: 'blur' }
+          ],
+          isTouch: [
+            { required: true, message: '请选择是否', trigger: 'blur' }
+          ],
+          isTouchoverseas: [
+            { required: true, message: '请选择是否', trigger: 'blur' }
+          ],
+
+          // aera: [
+          //   { type: 'array', required: true, message: '请选择位置信息', trigger: 'blur' }
+          // ],
+        }
+      }
+    },
+    methods: {
+      nextStep() {
+        this.$refs['myForm'].validate((valid) => {
+          if (valid) {
+            this.step++;
+            // console.log(this.formData);
+          } else {
+            return false;
+          }
+        });
+      },
+      preStep() {
+        this.step--;
+      },
+      submit() {
+        this.step = 3;
+      },
+      final_submit(){
+        //绑定的是最终确认提交的按钮
+        // console.log(this.$refs['myForm']);
+        console.log(this.formData);
+
+        const params = {
+          ...this.formData
+        }
+
+        console.log("封装的数据是"+params);
+        console.log(params);
+
+        //返回的是一个封装的res数据集
+        addHealthInfo(params).then(res => {
+          if (res.code === 1) {
+            this.$message.success('员工添加成功！')
+
+          } else {
+            this.$message.error(res.msg || '操作失败')
+          }
+        }).catch(err => {
+          this.$message.error('请求出错了：' + err)
+        })
+      }
+    }
+  })
+</script>
+
+<style lang="scss">
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+    font-weight: 700;
+  }
+
+  .content {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .demo-ruleForm {
+    width: 460px;
+  }
+
+</style>
+
+
+</body>
+</html>

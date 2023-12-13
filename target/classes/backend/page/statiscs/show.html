@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="../../plugins/element-ui/index.css" />
+
+  <style>
+
+    img {
+      height: 150px;
+      margin-right: 40px;
+      border-radius: 50%;
+    }
+    .user-name {
+      font-size: 32px;
+      margin: 0;
+      margin-bottom: 10px;
+    }
+
+    .user-identity {
+      margin: 0;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ccc;
+    }
+    span {
+      margin-left: 60px;
+    }
+
+    i {
+      height: 80px;
+      width: 80px;
+      /*可以通过font-size控制i中的图标大小，为什么？？font-size本质上是控制字符框的高度 */
+      font-size: 30px;
+      line-height: 80px;
+      text-align: center;
+    }
+
+  </style>
+
+
+</head>
+
+<body>
+
+<div id="app">
+
+
+  <el-row>
+    <el-col :span="8">
+      <el-card class="box-card" shadow="always">
+        <div class="user-info">
+          <img src="../../title2.ico" alt="">
+          <div>
+            <p class="user-name">Admin</p>
+            <p class="user-identity">超级管理员</p>
+          </div>
+        </div>
+        <div >
+          <p>上次登陆时间:<span>2023-3-29</span></p>
+          <p>上次登陆地点:<span>大连</span></p>
+        </div>
+      </el-card>
+
+
+      <el-card v-for="item in countData" :key="item.name" class="countData" :body-style="{display:'flex',padding:0}">
+        <i :class="`el-icon-${item.icon}`" :style="{backgroundColor:item.color,color:'#fff' }"></i>
+        <!--                这里注意不能使用常规的style的动态的绑定语法，否则你的左值也会被解析，但他会发现Vue实例对象上没有这个值-->
+        <!--                在Vue中如果对style做绑定要传入一个对象-->
+        <div>
+          <p class="value">￥{{item.value}}</p>
+          <p class="name">{{item.name}}</p>
+        </div>
+      </el-card>
+    </el-col>
+
+    <el-col :span="16">
+      <div class="grid-content bg-purple-light">
+        <div style="margin-left:20px">
+          <!-- 折线图 -->
+          <!--  之前是280px-->
+          <el-card style="height:280px">
+            <div id="echarts1" style="height:280px">你好</div>
+          </el-card>
+
+          <div class="graph">
+            <!-- 柱状图 -->
+            <!--    之前是260px-->
+            <el-card style="height:280px">
+              <div id="echarts2" style="height:260px">你好</div>
+            </el-card>
+            <!-- 饼状图 -->
+            <el-card style="height:280px">
+              <div id="echarts3" style="height:260px">你好</div>
+            </el-card>
+          </div>
+
+        </div>
+      </div>
+    </el-col>
+  </el-row>
+
+
+
+
+<!--  &lt;!&ndash; echarts图表 &ndash;&gt;-->
+<!--  <div style="margin-left:20px">-->
+<!--    &lt;!&ndash; 折线图 &ndash;&gt;-->
+<!--    &lt;!&ndash;  之前是280px&ndash;&gt;-->
+<!--    <el-card style="height:280px">-->
+<!--      <div id="echarts1" style="height:280px">你好</div>-->
+<!--    </el-card>-->
+
+<!--    <div class="graph">-->
+<!--      &lt;!&ndash; 柱状图 &ndash;&gt;-->
+<!--      &lt;!&ndash;    之前是260px&ndash;&gt;-->
+<!--      <el-card style="height:260px">-->
+<!--        <div id="echarts2" style="height:260px">你好</div>-->
+<!--      </el-card>-->
+<!--      &lt;!&ndash; 饼状图 &ndash;&gt;-->
+<!--      <el-card style="height:260px">-->
+<!--        <div id="echarts3" style="height:260px">你好</div>-->
+<!--      </el-card>-->
+<!--    </div>-->
+
+<!--  </div>-->
+
+<!--  <el-col :span="16" class="rightPart">-->
+<!--    <el-card v-for="item in countData" :key="item.name" class="countData" :body-style="{display:'flex',padding:0}">-->
+<!--      <i :class="`el-icon-${item.icon}`" :style="{backgroundColor:item.color,color:'#fff' }"></i>-->
+<!--      &lt;!&ndash;                这里注意不能使用常规的style的动态的绑定语法，否则你的左值也会被解析，但他会发现Vue实例对象上没有这个值&ndash;&gt;-->
+<!--      &lt;!&ndash;                在Vue中如果对style做绑定要传入一个对象&ndash;&gt;-->
+<!--      <div>-->
+<!--        <p class="value">￥{{item.value}}</p>-->
+<!--        <p class="name">{{item.name}}</p>-->
+<!--      </div>-->
+<!--    </el-card>-->
+<!--  </el-col>-->
+
+</div>
+
+
+
+
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="../../plugins/vue/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="../../plugins/element-ui/index.js"></script>
+<!-- 引入axios -->
+<script src="../../plugins/axios/axios.min.js"></script>
+<script src="../../js/request.js"></script>
+<script src="../../js/echarts.min.js"></script>
+
+
+<script>
+
+  new Vue({
+    el :'#app',
+    data(){
+      return {
+        countData: [
+          {
+            name: "今日支付订单",
+            value: 1234,
+            icon: "success",
+            color: "#2ec7c9",
+          },
+          {
+            name: "今日收藏订单",
+            value: 210,
+            icon: "star-on",
+            color: "#ffb980",
+          },
+          {
+            name: "今日未支付订单",
+            value: 1234,
+            icon: "s-goods",
+            color: "#5ab1ef",
+          },
+          {
+            name: "本月支付订单",
+            value: 1234,
+            icon: "success",
+            color: "#2ec7c9",
+          },
+          {
+            name: "本月收藏订单",
+            value: 210,
+            icon: "star-on",
+            color: "#ffb980",
+          },
+          {
+            name: "本月未支付订单",
+            value: 1234,
+            icon: "s-goods",
+            color: "#5ab1ef",
+          },
+        ],
+      }
+    },
+  })
+  </script>
+
+<script>
+  const xDataArr = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+  const yDataArr = [3000,2800,900,1000,800,700,2000,240,1900,1300,1800,300];
+  // const yDataArr = [3001,3003,3002,3005,3000,3005,3002,3004,3001,3006,3007,3002];
+
+  document.querySelector('#echarts1').removeAttribute('_echarts_instance_');
+  document.querySelector('#echarts2').removeAttribute('_echarts_instance_');
+  document.querySelector('#echarts3').removeAttribute('_echarts_instance_');
+
+
+  const mcharts = echarts.init(document.querySelector('#echarts1'));
+
+  //其他的两个图表
+  const mcharts1 = echarts.init(document.querySelector('#echarts2'));
+  const mcharts2 = echarts.init(document.querySelector('#echarts3'));
+
+
+  const option = {
+    title: {
+      text: '月计送药量统计'
+    },
+    xAxis:{
+      type:'category',
+      data:xDataArr,
+      boundaryGap:false//紧挨边缘
+    },
+    yAxis:{
+      type:'value'
+    },
+    series:[
+      {
+        name:'康师傅',
+        data:yDataArr,
+        type: 'line',
+        markPoint:{
+          data:[
+            {
+              type:'max',name:'最大值'
+            },
+            {
+              type:'min',name:'最小值'
+            }
+          ]
+        },
+        markLint:{
+          data:[
+            {
+              type:'average',name:'平均值'
+            }
+          ]
+        },
+        markArea:{
+          data:[
+            [
+              {
+                xAxis:'1月'
+              },
+              {
+                xAxis:'2月'
+              }
+            ],
+            [
+              {
+                xAxis:'7月'
+              },
+              {
+                xAxis:'8月'
+              }
+            ]
+          ]
+        },
+        smooth:true,
+        lineStyle:{
+          color:'pink',
+          type:'dashed',
+        },
+        areaStyle:{
+          color:'pink'
+        }
+      }
+    ]
+  }
+
+  //表示的是饼状图
+  const option1 = {
+    title: {
+      text: '药物需求分布图',
+      subtext: '需求数据',
+      left: 'center'
+    },
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      orient: 'vertical',
+      left: 'left'
+    },
+    series: [
+      {
+        name: 'Access From',
+        type: 'pie',
+        radius: '50%',
+        data: [
+          { value: 1048, name: '儿科用药' },
+          { value: 735, name: '肝胆用药' },
+          { value: 580, name: '呼吸道用药' },
+          { value: 484, name: '止痛用药' },
+          { value: 300, name: '新冠用药' }
+        ],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }
+    ]
+  };
+
+
+  const option2 = {
+    title: {
+      text: '未来一周气温预测(送药人员专用版)'
+    },
+    tooltip: {
+      trigger: 'axis'
+    },
+    legend: {},
+    toolbox: {
+      show: true,
+      feature: {
+        dataZoom: {
+          yAxisIndex: 'none'
+        },
+        dataView: { readOnly: false },
+        magicType: { type: ['line', 'bar'] },
+        restore: {},
+        saveAsImage: {}
+      }
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+      type: 'value',
+      axisLabel: {
+        formatter: '{value} °C'
+      }
+    },
+    series: [
+      {
+        name: 'Highest',
+        type: 'line',
+        data: [10, 11, 13, 11, 12, 12, 9],
+        markPoint: {
+          data: [
+            { type: 'max', name: 'Max' },
+            { type: 'min', name: 'Min' }
+          ]
+        },
+        markLine: {
+          data: [{ type: 'average', name: 'Avg' }]
+        }
+      },
+      {
+        name: 'Lowest',
+        type: 'line',
+        data: [1, -2, 2, 5, 3, 2, 0],
+        markPoint: {
+          data: [{ name: '周最低', value: -2, xAxis: 1, yAxis: -1.5 }]
+        },
+        markLine: {
+          data: [
+            { type: 'average', name: 'Avg' },
+            [
+              {
+                symbol: 'none',
+                x: '90%',
+                yAxis: 'max'
+              },
+              {
+                symbol: 'circle',
+                label: {
+                  position: 'start',
+                  formatter: 'Max'
+                },
+                type: 'max',
+                name: '最高点'
+              }
+            ]
+          ]
+        }
+      }
+    ]
+  };
+
+  mcharts.setOption(option);
+  mcharts1.setOption(option1);
+  mcharts2.setOption(option2);
+
+</script>
+
+
+</body>
+
+
+</html>
